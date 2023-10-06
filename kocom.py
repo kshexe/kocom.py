@@ -535,11 +535,7 @@ def packet_processor(p):
         rs485_floor = int(config.get('Elevator','rs485_floor', fallback=0))
         if rs485_floor != 0 :
              if p['value'] == '0300000000000000' :
-             # 도착 패킷 수신 시 off상태로 변경 [ AA 55 30 BC 00 44 00 01 00 01 03 00 00 00 00 00 00 00 35 0D 0D ]
-                   # state = {'floor': floor}  ---- 삭제
                    state = {'state': 'off'}
-                   # if rs485_floor == floor:  ---- 삭제
-                        # state['state'] = 'off'  ---- 삭제
         else:
             state = {'state': 'off'}
         logtxt='[MQTT publish|elevator] data[{}]'.format(state)
