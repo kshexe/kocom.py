@@ -530,25 +530,9 @@ def packet_processor(p):
             state = {'state': p['cmd']}
             logtxt='[MQTT publish|gas] data[{}]'.format(state)
             mqttc.publish("kocom/livingroom/gas/state", json.dumps(state))
-    elif p['type'] == 'send' and p['dest'] == 'elevator':
-        # floor = int(p['value'][2:4],16)  ---- 삭제
-        rs485_floor = int(config.get('Elevator','rs485_floor', fallback=0))
-        if rs485_floor != 0 :
-             if p['value'] == '0300000000000000' :
-             # 도착 패킷 수신 시 off상태로 변경 [ AA 55 30 BC 00 44 00 01 00 01 03 00 00 00 00 00 00 00 35 0D 0D ]
-                   # state = {'floor': floor}  ---- 삭제
-                   state = {'state': 'off'}
-                   # if rs485_floor == floor:  ---- 삭제
-                        # state['state'] = 'off'  ---- 삭제
-        else:
-             state = {'state': 'off'}
-        logtxt='[MQTT publish|elevator] data[{}]'.format(state)
-        mqttc.publish("kocom/myhome/elevator/state", json.dumps(state))
-        # aa5530bc0044000100010300000000000000350d0d
 
     if logtxt != "" and config.get('Log', 'show_mqtt_publish') == 'True':
         logging.info(logtxt)
-
 
 #===== publish MQTT Devices Discovery =====
 
